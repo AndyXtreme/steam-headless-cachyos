@@ -4,15 +4,15 @@
 #     cp .env.example .env   &&   edit .env
 #     docker compose up -d
 #
-# Build the image first:  docker build -t andyxtreme/steam-headless-cachyos:latest .
+# The image is pulled from Docker Hub (andyxtreme/steam-headless-cachyos) unless
+# it already exists locally, e.g. after: docker build -t andyxtreme/steam-headless-cachyos:latest .
 # Host prerequisite: nvidia-drm.modeset=1 must be enabled (see
 # docs/nvidia-wayland.md).
 services:
   steam-headless:
     image: andyxtreme/steam-headless-cachyos:latest
-    # Use the locally built/loaded image; never try to pull from a registry.
-    pull_policy: never
-    # Uncomment to build the image from this repo instead of loading it:
+    pull_policy: missing
+    # Uncomment to build the image from this repo instead of pulling it:
     # build:
     #   context: .
     #   dockerfile: Dockerfile

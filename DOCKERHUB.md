@@ -7,6 +7,8 @@ If this edition helps you, I'd appreciate a small donation – thank you! ☕
 
 # Steam-Headless – CachyOS + Wayland Edition
 
+[![GitHub](https://img.shields.io/badge/GitHub-andyxtreme%2Fsteam--headless--cachyos-181717?logo=github&logoColor=white)](https://github.com/andyxtreme/steam-headless-cachyos)
+
 A cloud-gaming desktop in a container: games run on the **NVIDIA GPU of a
 headless server**, and you play them in the **browser** (noVNC) or with
 **Moonlight** (Sunshine, NVENC). No monitor, no dummy plug, no client to install
