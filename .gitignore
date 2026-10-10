@@ -1,0 +1,14 @@
+# Local secrets / per-host config (never commit this)
+.env
+
+# Local tool state
+.claude/settings.local.json
+
+# Exported images / build artifacts
+*.tar
+*.tar.gz
+*.zst
+build-*.log
+
+# Scratch
+*.local.*
