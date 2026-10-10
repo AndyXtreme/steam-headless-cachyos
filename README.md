@@ -6,6 +6,8 @@ If this edition helps you, I'd appreciate a small donation – thank you! ☕
 
 # Steam-Headless: CachyOS + Wayland edition
 
+[![Docker Hub](https://img.shields.io/badge/Docker%20Hub-andyxtreme%2Fsteam--headless--cachyos-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/andyxtreme/steam-headless-cachyos)
+
 A self-hosted **cloud-gaming desktop in a container**, rebuilt on **CachyOS**
 with a **Wayland** session (labwc / wlroots) instead of the classic X11 + XFCE
 stack. Run games on a headless server's NVIDIA GPU and play them from anywhere
@@ -44,14 +46,18 @@ by josh5 — see [Credits & license](#credits--license).
 
 ## Quick start
 
-### 1. Build the image
+### 1. Get the image
 
-A prebuilt image is on Docker Hub:
-[andyxtreme/steam-headless-cachyos](https://hub.docker.com/r/andyxtreme/steam-headless-cachyos)
-(`docker pull andyxtreme/steam-headless-cachyos:latest`). To build it yourself:
+The prebuilt image is on Docker Hub as
+[andyxtreme/steam-headless-cachyos](https://hub.docker.com/r/andyxtreme/steam-headless-cachyos);
+`docker compose up -d` pulls it automatically:
 
-The build context is the repository root (it needs `overlay/` and
-`overlay-wayland/`), so build from a Linux box with Docker:
+```bash
+docker pull andyxtreme/steam-headless-cachyos:latest
+```
+
+To build it yourself instead: the build context is the repository root (it
+needs `overlay/` and `overlay-wayland/`), so build from a Linux box with Docker:
 
 ```bash
 docker build -t andyxtreme/steam-headless-cachyos:latest .
