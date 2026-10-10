@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# Installed as /usr/bin/rmmod and /usr/bin/modprobe (see Dockerfile).
+#
+# The container runs privileged, so unloading a kernel module here unloads it
+# on the HOST - and loading it back fails, because the container has no modules
+# for the host kernel. `modprobe -r nvidia_drm` takes nvidia_drm and
+# nvidia_modeset with it, /dev/dri disappears, and labwc can't start until the
+# modules are reloaded on the host.
+# Refuse every unload and pass everything else through to kmod.
+name="${0##*/}"
+
+refuse() {
+    echo "${name}: refusing to unload host kernel modules from inside the container (${name} $*)" >&2
+    exit 1
+}
+
+[ "${name}" = rmmod ] && refuse "$@"
+for arg in "$@"; do
+    case "${arg}" in
+        --remove*) refuse "$@" ;;
+        --*) ;;
+        -*r*) refuse "$@" ;;
+    esac
+done
+exec -a "${name}" /usr/bin/kmod "$@"

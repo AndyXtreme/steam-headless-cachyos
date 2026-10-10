@@ -1,0 +1,14 @@
+# Build context = repository root. Only overlay/ and overlay-wayland/ are
+# needed by the Dockerfile - keep everything else out of the context.
+.git
+.github
+.claude
+docs
+*.md
+.env
+.env.*
+!.env.example
+docker-compose*.yml
+*.tar
+*.tar.gz
+*.zst

@@ -1,0 +1,170 @@
+# Steam-Headless (CachyOS / Wayland)
+#
+# All configuration comes from a .env file next to this compose:
+#     cp .env.example .env   &&   edit .env
+#     docker compose up -d
+#
+# Build the image first:  docker build -t andyxtreme/steam-headless-cachyos:latest .
+# Host prerequisite: nvidia-drm.modeset=1 must be enabled (see
+# docs/nvidia-wayland.md).
+services:
+  steam-headless:
+    image: andyxtreme/steam-headless-cachyos:latest
+    # Use the locally built/loaded image; never try to pull from a registry.
+    pull_policy: never
+    # Uncomment to build the image from this repo instead of loading it:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    restart: unless-stopped
+    hostname: steam-headless
+    extra_hosts:
+      admin: 127.0.0.1
+
+    # Host networking (required for Moonlight/Sunshine discovery + low latency)
+    network_mode: host
+    ipc: host
+
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+      - seccomp=unconfined
+    cap_add:
+      - AUDIT_WRITE
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - FSETID
+      - KILL
+      - MKNOD
+      - NET_ADMIN
+      - SETGID
+      - SETUID
+      - SYS_ADMIN
+      - SYS_NICE
+      - SYS_RESOURCE
+    cap_drop:
+      - ALL
+
+    shm_size: 4096M
+    # Optional CPU pinning - uncomment and set to your cores, e.g. "8-15,24-31".
+    # The image maps Wine's CPUs onto this set automatically (WINE_CPU_TOPOLOGY).
+    # cpuset: "8-15,24-31"
+    device_cgroup_rules:
+      - c 13:* rwm
+    devices:
+      - /dev/fuse:/dev/fuse
+      - /dev/uinput:/dev/uinput
+      - /dev/dri:/dev/dri
+
+    deploy:
+      resources:
+        limits:
+          memory: ${MEM_LIMIT:-16G}
+        reservations:
+          memory: ${MEM_RESERVATION:-4G}
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+              device_ids:
+                - "${GPU_UUID:?set GPU_UUID in .env (run nvidia-smi -L)}"
+
+    environment:
+      # --- Identity / locale ---
+      TZ: ${TZ:-Etc/UTC}
+      USER_PASSWORD: ${USER_PASSWORD:?set USER_PASSWORD in .env}
+      UID: ${PUID:-568}
+      GID: ${PGID:-568}
+      PUID: ${PUID:-568}
+      PGID: ${PGID:-568}
+      USER_ID: ${PUID:-568}
+      GROUP_ID: ${PGID:-568}
+      UMASK: '002'
+      UMASK_SET: '002'
+
+      # --- Mode / web UI ---
+      MODE: primary
+      WEB_UI_MODE: vnc
+      PORT_NOVNC_WEB: ${PORT_NOVNC_WEB:-31100}
+
+      # --- Display (virtual output resolution) ---
+      DISPLAY: ':0'
+      DISPLAY_SIZEW: ${DISPLAY_SIZEW:-1920}
+      DISPLAY_SIZEH: ${DISPLAY_SIZEH:-1080}
+      DISPLAY_REFRESH: ${DISPLAY_REFRESH:-60}
+
+      # --- Keyboard layout (XKB) ---
+      XKB_DEFAULT_LAYOUT: ${XKB_DEFAULT_LAYOUT:-us}
+      XKB_DEFAULT_VARIANT: ${XKB_DEFAULT_VARIANT:-}
+
+      # --- Wayland / NVIDIA headless rendering ---
+      # gles2 (not vulkan): NVIDIA's Vulkan lacks VK_EXT_external_memory_dma_buf.
+      # headless,libinput: virtual output + reads Sunshine's uinput devices.
+      WLR_BACKENDS: headless,libinput
+      LIBSEAT_BACKEND: seatd
+      WLR_RENDERER: ${WLR_RENDERER:-gles2}
+      WLR_RENDERER_ALLOW_SOFTWARE: '1'
+      # Force the GPU render node, else wlroots may pick card0 (needs DRM master)
+      # and gbm_bo_create fails with "Permission denied" -> no output.
+      WLR_RENDER_DRM_DEVICE: ${WLR_RENDER_DRM_DEVICE:-/dev/dri/renderD128}
+      WLR_NO_HARDWARE_CURSORS: '1'
+      GBM_BACKEND: nvidia-drm
+      __GLX_VENDOR_LIBRARY_NAME: nvidia
+      NVIDIA_DRIVER_CAPABILITIES: all
+      NVIDIA_VISIBLE_DEVICES: "${GPU_UUID:?set GPU_UUID in .env (run nvidia-smi -L)}"
+      # Pinned host driver version (must be downloadable from NVIDIA).
+      NVIDIA_DRIVER_VERSION: ${NVIDIA_DRIVER_VERSION:?set NVIDIA_DRIVER_VERSION in .env}
+
+      # --- Features ---
+      # Set ENABLE_STEAM=false in .env to stop Steam auto-starting with the
+      # session. Steam stays installed and can be launched manually or via the
+      # Sunshine "Steam Big Picture" app.
+      ENABLE_STEAM: ${ENABLE_STEAM:-true}
+      STEAM_ARGS: ${STEAM_ARGS:--silent}
+      ENABLE_SUNSHINE: 'true'
+      ENABLE_EVDEV_INPUTS: 'true'
+      ENABLE_VNC_AUDIO: 'true'
+      # D-Bus runs inside the container. 'true' (plus a /run/dbus mount) would
+      # give the container root access to the host's system bus.
+      HOST_DBUS: 'false'
+
+      # --- Sunshine credentials ---
+      SUNSHINE_USER: ${SUNSHINE_USER:-admin}
+      SUNSHINE_PASS: ${SUNSHINE_PASS:?set SUNSHINE_PASS in .env}
+
+    group_add:
+      - '44'              # video
+      - '107'             # render
+      - '${PGID:-568}'    # apps
+
+    volumes:
+      - type: bind
+        source: ${DATA_DIR:?set DATA_DIR in .env}/home
+        target: /home/default
+      - type: bind
+        source: ${DATA_DIR:?set DATA_DIR in .env}/games
+        target: /mnt/games
+      - type: bind
+        source: ${DATA_DIR:?set DATA_DIR in .env}/x11
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ${DATA_DIR:?set DATA_DIR in .env}/pulse
+        target: /tmp/pulse
+
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - --request
+        - GET
+        - --silent
+        - --output
+        - /dev/null
+        - --show-error
+        - --fail
+        - http://127.0.0.1:${PORT_NOVNC_WEB:-31100}/
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      start_interval: 2s

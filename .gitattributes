@@ -1,0 +1,21 @@
+# Shell scripts and container config are consumed by Linux inside the image:
+# always check them out with LF, even on Windows. A CRLF shebang line makes the
+# container fail with "bad interpreter".
+* text=auto eol=lf
+*.sh            text eol=lf
+*.ini           text eol=lf
+*.conf          text eol=lf
+*.rules         text eol=lf
+*.patch         text eol=lf -diff
+Dockerfile      text eol=lf
+entrypoint.sh   text eol=lf
+.env.example    text eol=lf
+*.yml           text eol=lf
+
+# Extensionless scripts in the overlays
+overlay/usr/bin/*          text eol=lf
+overlay-wayland/usr/bin/*  text eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary

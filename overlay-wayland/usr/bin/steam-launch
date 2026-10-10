@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+###
+# File: steam-launch
+# Project: bin
+# Starts Steam from the labwc menu and the session autostart.
+#
+# When the Steam client crashes during start-up it leaves its update-UI child
+# (`ubuntu12_32/steam -child-update-ui`, reparented to PID 1) behind. That
+# orphan keeps ~/.steam/steam.pipe open, so every later `steam` call believes
+# Steam is already running, hands its command to the orphan and exits without
+# doing anything. Clear such leftovers first - but only when no real Steam
+# client is running.
+###
+
+uid="$(id -u)"
+
+steam_client_running() {
+    pgrep -u "${uid}" -af 'ubuntu12_32/steam( |$)' | grep -qv -- '-child-update-ui'
+}
+
+if ! steam_client_running; then
+    pkill -u "${uid}" -f 'ubuntu12_32/steam -child-update-ui' 2>/dev/null
+    pkill -u "${uid}" -f 'steam-runtime-tools-0/srt-logger' 2>/dev/null
+fi
+
+exec steam "$@"
