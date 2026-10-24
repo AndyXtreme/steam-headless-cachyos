@@ -1,13 +1,7 @@
-## Support
-
-If this edition helps you, I'd appreciate a small donation – thank you! ☕
-
-[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/andyxtreme)
-
-
 # Steam-Headless – CachyOS + Wayland Edition
 
 [![GitHub](https://img.shields.io/badge/GitHub-andyxtreme%2Fsteam--headless--cachyos-181717?logo=github&logoColor=white)](https://github.com/andyxtreme/steam-headless-cachyos)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/andyxtreme)
 
 A cloud-gaming desktop in a container: games run on the **NVIDIA GPU of a
 headless server**, and you play them in the **browser** (noVNC) or with
@@ -328,6 +322,12 @@ refuses to run under Proton refuses here too.
 Full documentation – architecture, NVIDIA/Wayland details, troubleshooting with
 a symptom table, Moonlight pairing problems – lives in the source repository:
 <https://github.com/andyxtreme/steam-headless-cachyos> (`README.md` and `docs/`).
+
+## Support
+
+If this edition helps you, I'd appreciate a small donation – thank you! ☕
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/andyxtreme)
 
 ## Credits & License
 
