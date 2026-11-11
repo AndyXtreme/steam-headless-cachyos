@@ -13,7 +13,7 @@ This is a Wayland fork of the excellent
 [Steam-Headless/docker-steam-headless](https://github.com/Steam-Headless/docker-steam-headless)
 by josh5 — see [Credits & license](#credits--license).
 
-![labwc desktop over noVNC](docs/images/labwc-desktop.png)
+![Steam-Headless – CachyOS + Wayland edition: games run on your server's NVIDIA GPU, played in the browser or with Moonlight](docs/images/readme-title.png)
 
 ---
 
