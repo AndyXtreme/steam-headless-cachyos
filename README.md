@@ -13,6 +13,9 @@ This is a Wayland fork of the excellent
 [Steam-Headless/docker-steam-headless](https://github.com/Steam-Headless/docker-steam-headless)
 by josh5 — see [Credits & license](#credits--license).
 
+📺 **Video guide (in German):** the whole setup step by step on YouTube –
+[youtu.be/ju33TAWeAAw](https://youtu.be/ju33TAWeAAw)
+
 ![Steam-Headless – CachyOS + Wayland edition: games run on your server's NVIDIA GPU, played in the browser or with Moonlight](docs/images/readme-title.png)
 
 ---

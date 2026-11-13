@@ -17,6 +17,9 @@ session instead of Xorg + XFCE.
 Self-hosted, no cloud, no account – except the Steam account you log in with.
 amd64 only.
 
+📺 **Video guide (in German):** the whole setup step by step on YouTube –
+[youtu.be/ju33TAWeAAw](https://youtu.be/ju33TAWeAAw)
+
 ---
 
 ## What's different from the original image
