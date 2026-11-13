@@ -2,6 +2,7 @@
 
 [![Docker Hub](https://img.shields.io/badge/Docker%20Hub-andyxtreme%2Fsteam--headless--cachyos-2496ED?logo=docker&logoColor=white)](https://hub.docker.com/r/andyxtreme/steam-headless-cachyos)
 [![Docker Pulls](https://img.shields.io/docker/pulls/andyxtreme/steam-headless-cachyos?logo=docker)](https://hub.docker.com/r/andyxtreme/steam-headless-cachyos)
+[![YouTube](https://img.shields.io/badge/YouTube-Video%20guide%20%28German%29-FF0000?logo=youtube&logoColor=white)](https://youtu.be/ju33TAWeAAw)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/andyxtreme)
 
 A self-hosted **cloud-gaming desktop in a container**, rebuilt on **CachyOS**
@@ -12,9 +13,6 @@ in the browser or via Moonlight.
 This is a Wayland fork of the excellent
 [Steam-Headless/docker-steam-headless](https://github.com/Steam-Headless/docker-steam-headless)
 by josh5 — see [Credits & license](#credits--license).
-
-📺 **Video guide (in German):** the whole setup step by step on YouTube –
-[youtu.be/ju33TAWeAAw](https://youtu.be/ju33TAWeAAw)
 
 ![Steam-Headless – CachyOS + Wayland edition: games run on your server's NVIDIA GPU, played in the browser or with Moonlight](docs/images/readme-title.png)
 

@@ -1,6 +1,7 @@
 # Steam-Headless – CachyOS + Wayland Edition
 
 [![GitHub](https://img.shields.io/badge/GitHub-andyxtreme%2Fsteam--headless--cachyos-181717?logo=github&logoColor=white)](https://github.com/andyxtreme/steam-headless-cachyos)
+[![YouTube](https://img.shields.io/badge/YouTube-Video%20guide%20%28German%29-FF0000?logo=youtube&logoColor=white)](https://youtu.be/ju33TAWeAAw)
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/andyxtreme)
 
 A cloud-gaming desktop in a container: games run on the **NVIDIA GPU of a
@@ -16,9 +17,6 @@ session instead of Xorg + XFCE.
 
 Self-hosted, no cloud, no account – except the Steam account you log in with.
 amd64 only.
-
-📺 **Video guide (in German):** the whole setup step by step on YouTube –
-[youtu.be/ju33TAWeAAw](https://youtu.be/ju33TAWeAAw)
 
 ---
 
